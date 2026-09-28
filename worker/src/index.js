@@ -1,4 +1,4 @@
-import Anthropic from "@anthropic-ai/sdk";
+import { ApiError, GoogleGenAI } from "@google/genai";
 import { PORTFOLIO } from "./portfolio.js";
 
 const MAX_MESSAGES = 12; // most recent turns sent to the model
@@ -47,20 +47,18 @@ export default {
       return text(err.message, 400, cors);
     }
 
-    const client = new Anthropic({ apiKey: env.ANTHROPIC_API_KEY });
-    const stream = client.beta.messages.stream({
-      model: env.MODEL || "claude-opus-5-5",
-      max_tokens: 4000,
-      output_config: { effort: "low" },
-      betas: ["server-side-fallback-2026-07-01"],
-      fallbacks: "default",
-      cache_control: { type: "ephemeral" },
-      system: SYSTEM,
-      messages,
+    const ai = new GoogleGenAI({ apiKey: env.GEMINI_API_KEY });
+    const reply = ai.models.generateContentStream({
+      model: env.MODEL || "gemini-flash-latest",
+      contents: messages.map((m) => ({
+        role: m.role === "assistant" ? "model" : "user",
+        parts: [{ text: m.content }],
+      })),
+      config: { systemInstruction: SYSTEM, maxOutputTokens: 4096 },
     });
 
     const { readable, writable } = new TransformStream();
-    ctx.waitUntil(pipeReply(stream, writable));
+    ctx.waitUntil(pipeReply(reply, writable));
 
     return new Response(readable, {
       headers: { ...cors, "Content-Type": "text/plain; charset=utf-8", "Cache-Control": "no-store" },
@@ -69,26 +67,29 @@ export default {
 };
 
 // Streams the reply's text to the browser as plain UTF-8 chunks.
-async function pipeReply(stream, writable) {
+async function pipeReply(reply, writable) {
   const writer = writable.getWriter();
   const encoder = new TextEncoder();
   let wroteText = false;
+  let blocked = false;
   try {
-    for await (const event of stream) {
-      if (event.type === "content_block_delta" && event.delta.type === "text_delta") {
+    for await (const chunk of await reply) {
+      const text = chunk.text;
+      if (text) {
         wroteText = true;
-        await writer.write(encoder.encode(event.delta.text));
+        await writer.write(encoder.encode(text));
+      }
+      const finish = chunk.candidates?.[0]?.finishReason;
+      if (chunk.promptFeedback?.blockReason || (finish && !["STOP", "MAX_TOKENS"].includes(finish))) {
+        blocked = true;
       }
     }
-    const final = await stream.finalMessage();
-    if (final.stop_reason === "refusal") {
+    if (blocked || !wroteText) {
       await writer.write(encoder.encode((wroteText ? "\n\n" : "") + FALLBACK_TEXT));
     }
   } catch (err) {
-    if (err instanceof Anthropic.RateLimitError) {
-      console.error("Anthropic rate limit:", err.message);
-    } else if (err instanceof Anthropic.APIError) {
-      console.error(`Anthropic API error ${err.status}:`, err.message);
+    if (err instanceof ApiError) {
+      console.error(`Gemini API error ${err.status}:`, err.message);
     } else {
       console.error("Chat stream failed:", err);
     }
