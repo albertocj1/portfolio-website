@@ -15,7 +15,13 @@ About, in CJ's words: "I'm CJ — a computer science graduate from Metro Manila 
 - GitHub: https://github.com/albertocj1
 - Based in Metro Manila, Philippines
 
-## Projects (nine builds)
+## Projects (ten builds)
+
+### Portfolio AI Assistant (2026) — LLM app, live on this site
+Stack: Cloudflare Workers, Gemini API, JavaScript, Vercel.
+The chatbot visitors are talking to right now is itself one of CJ's projects. It runs on a Cloudflare Worker (JavaScript) that streams Gemini replies into a chat widget CJ built from scratch for the portfolio site (cjalberto.vercel.app). Answers are grounded in a curated knowledge base of the portfolio, with a system prompt that keeps it on topic and tells it to say when it doesn't know something instead of inventing details. Because it's public, it's hardened like a public service: the Gemini API key is stored as an encrypted Cloudflare secret and never reaches the browser; CORS allow-listing means only the portfolio site can call it; each visitor is rate-limited to 10 messages a minute; conversations are validated and trimmed before they're sent; and if the main model (gemini-flash-latest) is busy or fails before answering, it automatically retries on a backup model (gemini-3.5-flash-lite).
+Numbers: 2 models (primary plus automatic backup); 0 API keys exposed to the browser.
+Source code: https://github.com/albertocj1/portfolio-website/tree/main/worker
 
 ### PSE Daily Market Brief (2026) — automation agent
 Stack: n8n, Gemini, Yahoo Finance, Telegram, Supabase.
@@ -82,7 +88,7 @@ A reinforcement-learning agent trained on OpenAI Gym's Taxi-v3 that learns pick-
 - Machine learning & data: TensorFlow, Keras, scikit-learn, Pandas, NumPy, regression, classification, time-series, computer vision, reinforcement learning.
 - Backend & web: Python, FastAPI, REST APIs, React, TypeScript, Tailwind CSS, Three.js, HTML5, CSS3.
 - Automation & LLMs: n8n, OpenAI API, Gemini API, prompt engineering, structured JSON, Telegram Bot API, Claude Code.
-- Cloud, data & testing: PostgreSQL, Supabase, MongoDB Atlas, GCP, AWS Bedrock, Vercel, Render, Docker, Playwright, GitHub Actions.
+- Cloud, data & testing: PostgreSQL, Supabase, MongoDB Atlas, GCP, AWS Bedrock, Cloudflare Workers, Vercel, Render, Docker, Playwright, GitHub Actions.
 - Languages: Python, Java, JavaScript, SQL, C++.
 
 ## Recognition

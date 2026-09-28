@@ -320,7 +320,21 @@
   }
   .chat-fab:hover{background:var(--signal-deep);border-color:var(--signal-deep);transform:translateY(-1px)}
   .chat-fab .ico{font-size:1.05rem}
-  .chat-fab[hidden],.chat-panel[hidden]{display:none}
+  .chat-fab[hidden],.chat-panel[hidden],.chat-hint[hidden],.btn[hidden]{display:none}
+  button.btn{cursor:pointer}
+  .row-links button{appearance:none;background:none;border:0;border-bottom:1px solid var(--line);padding:0 0 1px;font:inherit;color:var(--signal-deep);cursor:pointer}
+  .row-links button:hover{border-color:var(--signal)}
+  .chat-hint{
+    position:fixed;right:max(1rem,env(safe-area-inset-right,0px));bottom:calc(max(1rem,env(safe-area-inset-bottom,0px)) + 3.6rem);z-index:60;
+    display:flex;align-items:flex-start;gap:.25rem;max-width:min(17rem,calc(100vw - 2rem));
+    background:var(--paper);border:1px solid var(--line);border-radius:12px;border-bottom-right-radius:4px;
+    padding:.55rem .45rem .55rem .8rem;box-shadow:0 14px 34px -16px rgb(var(--shadow) / .5);
+    animation:chatHintIn .35s ease-out;
+  }
+  .chat-hint-text{appearance:none;border:0;background:none;padding:0;text-align:left;font:inherit;font-size:.86rem;line-height:1.4;color:var(--ink);cursor:pointer}
+  .chat-hint-close{appearance:none;border:0;background:none;color:var(--ink-3);cursor:pointer;padding:.1rem;display:grid;place-items:center;flex:none}
+  .chat-hint-close:hover{color:var(--ink)}
+  @keyframes chatHintIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
   .chat-panel{
     position:fixed;right:max(1rem,env(safe-area-inset-right,0px));bottom:max(1rem,env(safe-area-inset-bottom,0px));z-index:61;
     width:min(24rem,calc(100vw - 2rem));height:min(34rem,calc(100dvh - 2rem));
@@ -353,8 +367,10 @@
   @media(max-width:480px){
     .chat-fab .label{display:none}
     .chat-fab{padding:.8rem}
+    .chat-hint{max-width:13.5rem}
+    .chat-hint-text{font-size:.8rem}
   }
-  @media(prefers-reduced-motion:reduce){.chat-typing::after{animation:none}}
+  @media(prefers-reduced-motion:reduce){.chat-typing::after,.chat-hint{animation:none}}
 </style>
 </head>
 <body>
@@ -420,6 +436,10 @@
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-.87-.01-1.71-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.5-1.11-1.5-.91-.64.07-.62.07-.62 1 .07 1.53 1.06 1.53 1.06.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.26-4.55-1.14-4.55-5.06 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.71 0 0 .84-.28 2.75 1.05a9.3 9.3 0 0 1 5 0c1.91-1.33 2.75-1.05 2.75-1.05.55 1.41.2 2.45.1 2.71.64.72 1.03 1.63 1.03 2.75 0 3.93-2.34 4.79-4.57 5.05.36.32.68.94.68 1.9 0 1.37-.01 2.47-.01 2.81 0 .27.18.6.69.49A10.04 10.04 0 0 0 22 12.25C22 6.58 17.52 2 12 2Z"/></svg>
         GitHub
       </a>
+      <button type="button" class="btn" data-chat-open hidden>
+        <svg class="ico"><use href="#i-chat"/></svg>
+        Ask my AI assistant
+      </button>
     </div>
 
     <div class="readout" aria-label="Current status">
@@ -465,18 +485,40 @@
   <section class="section wrap" id="work">
     <div class="sec-head">
       <div class="sec-title-wrap"><span class="sec-ico"><svg class="ico"><use href="#i-grid"/></svg></span><h2 class="sec-title">Selected work</h2></div>
-      <p class="sec-note">Nine builds, sorted by what they're made of. Filter to narrow.</p>
+      <p class="sec-note">Ten builds, sorted by what they're made of. Filter to narrow.</p>
     </div>
 
     <div class="filters" role="group" aria-label="Filter work by discipline">
-      <button class="chip" data-filter="all" aria-pressed="true">All<span class="n">9</span></button>
+      <button class="chip" data-filter="all" aria-pressed="true">All<span class="n">10</span></button>
       <button class="chip" data-filter="ml" aria-pressed="false">Machine learning<span class="n">4</span></button>
-      <button class="chip" data-filter="automation" aria-pressed="false">Automation & LLMs<span class="n">2</span></button>
+      <button class="chip" data-filter="automation" aria-pressed="false">Automation & LLMs<span class="n">3</span></button>
       <button class="chip" data-filter="fullstack" aria-pressed="false">Full-stack<span class="n">2</span></button>
       <button class="chip" data-filter="iot" aria-pressed="false">IoT<span class="n">1</span></button>
     </div>
 
     <div class="work">
+
+      <!-- Portfolio AI Assistant -->
+      <article class="row" data-cat="automation">
+        <div class="row-meta">
+          <div class="mrow"><span class="mk">year</span><span class="mv">2026</span></div>
+          <div class="mrow"><span class="mk">type</span><span class="mv"><svg class="ico"><use href="#i-chat"/></svg>LLM app · live demo</span></div>
+          <div class="mrow"><span class="mk">stack</span><span class="tags"><span class="tag">Cloudflare Workers</span><span class="tag">Gemini</span><span class="tag">JavaScript</span><span class="tag">Vercel</span></span></div>
+        </div>
+        <div class="row-body">
+          <h3>Portfolio AI Assistant</h3>
+          <p class="ctx">The chat on this page — you can try it right now</p>
+          <p class="desc">A chatbot that answers questions about my work, running on Cloudflare Workers and streaming Gemini replies into a chat widget I built from scratch. It's grounded in a curated knowledge base of this portfolio and told to decline off-topic requests and admit when it doesn't know something rather than invent a detail. Because it's public, it's built like a public service: the API key never reaches the browser, only this site may call it, each visitor is rate-limited, and if the main model is overloaded a backup model takes over automatically.</p>
+          <div class="metrics">
+            <div class="metric"><div class="num">2</div><div class="lab">models: primary plus automatic backup</div></div>
+            <div class="metric"><div class="num">0</div><div class="lab">API keys exposed to the browser</div></div>
+          </div>
+          <div class="row-links">
+            <button type="button" data-chat-open hidden><svg class="ico"><use href="#i-chat"/></svg>Try it now</button>
+            <a href="https://github.com/albertocj1/portfolio-website/tree/main/worker" target="_blank" rel="noopener"><svg class="ico"><use href="#i-github"/></svg>Source code</a>
+          </div>
+        </div>
+      </article>
 
       <!-- PSE brief -->
       <article class="row" data-cat="automation">
@@ -729,7 +771,7 @@
       </div>
       <div class="cap">
         <h4><svg class="ico"><use href="#i-cloud"/></svg>Cloud, data &amp; testing</h4>
-        <div class="items"><span>PostgreSQL</span><span>Supabase</span><span>MongoDB Atlas</span><span>GCP</span><span>AWS Bedrock</span><span>Vercel</span><span>Render</span><span>Docker</span><span>Playwright</span><span>GitHub Actions</span></div>
+        <div class="items"><span>PostgreSQL</span><span>Supabase</span><span>MongoDB Atlas</span><span>GCP</span><span>AWS Bedrock</span><span>Cloudflare Workers</span><span>Vercel</span><span>Render</span><span>Docker</span><span>Playwright</span><span>GitHub Actions</span></div>
       </div>
     </div>
     <p style="font-family:var(--mono);font-size:.8rem;color:var(--ink-3);margin-top:1.4rem">Languages — Python · Java · JavaScript · SQL · C++</p>
@@ -826,6 +868,10 @@
 <button class="chat-fab" id="chatFab" type="button" aria-controls="chatPanel" aria-expanded="false" hidden>
   <svg class="ico"><use href="#i-chat"/></svg><span class="label">Ask about my work</span>
 </button>
+<div class="chat-hint" id="chatHint" hidden>
+  <button type="button" class="chat-hint-text" id="chatHintOpen">Hi! Ask me anything about CJ's projects and experience.</button>
+  <button type="button" class="chat-hint-close" id="chatHintClose" aria-label="Dismiss"><svg class="ico"><use href="#i-x"/></svg></button>
+</div>
 <section class="chat-panel" id="chatPanel" role="dialog" aria-modal="false" aria-labelledby="chatTitle" hidden>
   <div class="chat-head">
     <div>
@@ -837,9 +883,9 @@
   <div class="chat-log" id="chatLog" aria-live="polite">
     <div class="chat-msg bot">Hi! I can answer questions about CJ's projects, experience, skills, and how to reach him.</div>
     <div class="chat-suggest" id="chatSuggest">
-      <button type="button">What's his strongest ML project?</button>
-      <button type="button">How did he fix the flaky tests in TaskFlow-QA?</button>
-      <button type="button">What roles is he open to?</button>
+      <button type="button">Summarize CJ in 30 seconds</button>
+      <button type="button">What has he shipped to production?</button>
+      <button type="button">How was this chatbot built?</button>
       <button type="button">How can I contact him?</button>
     </div>
   </div>
@@ -928,13 +974,33 @@
     var busy = false;
     fab.hidden = false;
 
+    var hint = document.getElementById('chatHint');
+    function hideHint(){
+      if(hint.hidden) return;
+      hint.hidden = true;
+      try { sessionStorage.setItem('cj-chat-hint', '1'); } catch(e){}
+    }
     function setOpen(open){
+      if(open) hideHint();
       panel.hidden = !open;
       fab.hidden = open;
       fab.setAttribute('aria-expanded', open ? 'true' : 'false');
       if(open){ input.focus(); } else { fab.focus(); }
     }
     fab.addEventListener('click', function(){ setOpen(true); });
+    document.querySelectorAll('[data-chat-open]').forEach(function(btn){
+      btn.hidden = false;
+      btn.addEventListener('click', function(){ setOpen(true); });
+    });
+    document.getElementById('chatHintOpen').addEventListener('click', function(){ setOpen(true); });
+    document.getElementById('chatHintClose').addEventListener('click', hideHint);
+
+    // one gentle greeting per visit, a few seconds after the page settles
+    var hintSeen = false;
+    try { hintSeen = sessionStorage.getItem('cj-chat-hint') === '1'; } catch(e){}
+    if(!hintSeen){
+      setTimeout(function(){ if(panel.hidden && !fab.hidden) hint.hidden = false; }, 4000);
+    }
     document.getElementById('chatClose').addEventListener('click', function(){ setOpen(false); });
     panel.addEventListener('keydown', function(e){ if(e.key === 'Escape') setOpen(false); });
 
