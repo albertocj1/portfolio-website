@@ -15,7 +15,7 @@ A small Cloudflare Worker that powers the "Ask about my work" chat on the portfo
    ```bash
    npx wrangler secret put GEMINI_API_KEY
    ```
-4. **Check the allowed sites.** `ALLOWED_ORIGINS` in `wrangler.toml` lists the sites that may use the chatbot. It's set to `https://albertocj1.github.io` (GitHub Pages). If the portfolio lives on a custom domain, add it, e.g. `"https://albertocj1.github.io,https://cjalberto.dev"`.
+4. **Check the allowed sites.** `ALLOWED_ORIGINS` in `wrangler.toml` lists the sites that may use the chatbot. It's set to `https://cjalberto.vercel.app`. If you add a custom domain later, append it, e.g. `"https://cjalberto.vercel.app,https://cjalberto.dev"`, and deploy again. Vercel preview links (the long `…-git-….vercel.app` addresses) aren't allowed, so the chat only works on the main address.
 5. **Deploy:**
    ```bash
    npm run deploy

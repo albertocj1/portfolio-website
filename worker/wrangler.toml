@@ -5,7 +5,7 @@ compatibility_flags = ["nodejs_compat"]
 
 [vars]
 # Sites allowed to call the chatbot, comma-separated. Add your custom domain here if you use one.
-ALLOWED_ORIGINS = "https://albertocj1.github.io,http://localhost:8000"
+ALLOWED_ORIGINS = "https://cjalberto.vercel.app,http://localhost:8000"
 # Gemini model that answers visitors' questions. "gemini-flash-latest" always points to Google's newest Flash model.
 MODEL = "gemini-flash-latest"
 
