@@ -37,6 +37,7 @@ Numbers: 18 → 0 flaky failures eliminated; 30/30 consistent pass across two br
 Stack: FastAPI, Supabase, Three.js, PayMongo, Gmail API.
 A full-stack RSVP and ticketing platform for a Manila Yacht Club event, built from scratch and run against real crowd traffic. PayMongo handles GCash and Maya payments, the Gmail API sends QR e-tickets the moment someone pays, and a reception dashboard scans those codes at the door and assigns table seating automatically. CJ also built the on-site point-of-sale and bar management systems.
 Numbers: 100% of manual booking work removed; handled event-night traffic end to end.
+Live production site: https://www.exclusivesph.com
 
 ### Dengue Early-Warning System (2025–26) — deep learning thesis
 Stack: TensorFlow, GCP, Render, Vercel.
