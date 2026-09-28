@@ -4,7 +4,7 @@ export const PORTFOLIO = `
 # Christian Joshua "CJ" Alberto
 
 Computer Science graduate (BS Computer Science, specialization in Machine Learning) from National University – Manila, based in Metro Manila, Philippines. Graduated Magna Cum Laude and was a Consistent First Honor Dean's Lister.
-Tagline: "I build systems that turn mess into signal." ML models, automation pipelines, and full-stack tools, with attention to the unglamorous part: the retries, the validation, the test that stays green.
+Headline: "AI automation engineer and full-stack developer." I build AI-powered automation workflows, LLM integrations, and full-stack web applications, from the backend to the deployed product.
 Focus: ML / automation / full-stack. Currently a freelance full-stack developer. Open to AI, ML, backend, and full-stack roles.
 
 About, in CJ's words: "I'm Christian Joshua Alberto, a Computer Science graduate (Magna Cum Laude) from National University – Manila with a specialization in machine learning. My work focuses on building software that runs reliably in production, including machine learning models, automated data pipelines, and full-stack web applications. Recent projects include a dengue outbreak forecasting model deployed with a live API and public dashboard, an automated market analysis pipeline that delivers daily reports after each Philippine Stock Exchange close, and an end-to-end test suite that runs on every pull request. During my internship, I automated HR workflows that cut manual processing time by 80%. I'm currently looking for roles in AI/ML, backend, or full-stack development. I focus on building systems that are dependable, maintainable, and ready for real use."
