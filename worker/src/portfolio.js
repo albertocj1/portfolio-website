@@ -80,7 +80,7 @@ A reinforcement-learning agent trained on OpenAI Gym's Taxi-v3 that learns pick-
 - Graduated Magna Cum Laude; Consistent First Honor Dean's Lister.
 - Thesis: a deep learning early-warning system for dengue in NCR, deployed with a live dashboard and REST API.
 
-### Internal Vice President — Google Developer Student Clubs (GDSC), National University (Aug 2024 – May 2026)
+### Internal Vice President — Google Developer Student Clubs (GDSC), National University (Aug 2024 – Nov 2024)
 - Led operations across three committees and raised member engagement by 20% through technical workshops.
 - Cut event prep time by 25% by streamlining the club's internal workflows.
 - Spoke at GDSC "Google Talks 2: Intro to AI".
