@@ -1,0 +1,19 @@
+name = "cj-portfolio-chat"
+main = "src/index.js"
+compatibility_date = "2026-09-01"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+# Sites allowed to call the chatbot, comma-separated. Add your custom domain here if you use one.
+ALLOWED_ORIGINS = "https://albertocj1.github.io,http://localhost:8000"
+# Claude model that answers visitors' questions.
+MODEL = "claude-opus-5-5"
+
+# Per-visitor limit: 10 messages a minute from one IP address.
+[[ratelimits]]
+name = "CHAT_LIMITER"
+namespace_id = "1001"
+
+  [ratelimits.simple]
+  limit = 10
+  period = 60

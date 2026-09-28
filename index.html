@@ -310,6 +310,51 @@
   @media(prefers-reduced-motion:reduce){
     .reveal>*{opacity:1;transform:none}
   }
+  /* ---------- portfolio chat ---------- */
+  .chat-fab{
+    position:fixed;right:max(1rem,env(safe-area-inset-right,0px));bottom:max(1rem,env(safe-area-inset-bottom,0px));z-index:60;
+    appearance:none;border:1px solid var(--signal);background:var(--signal);color:var(--on-signal);
+    font-family:var(--mono);font-size:.78rem;letter-spacing:.02em;
+    display:inline-flex;align-items:center;gap:.5rem;padding:.7rem 1rem;border-radius:999px;cursor:pointer;
+    box-shadow:0 10px 28px -12px rgb(var(--shadow) / .55);transition:background .2s,transform .12s;
+  }
+  .chat-fab:hover{background:var(--signal-deep);border-color:var(--signal-deep);transform:translateY(-1px)}
+  .chat-fab .ico{font-size:1.05rem}
+  .chat-fab[hidden],.chat-panel[hidden]{display:none}
+  .chat-panel{
+    position:fixed;right:max(1rem,env(safe-area-inset-right,0px));bottom:max(1rem,env(safe-area-inset-bottom,0px));z-index:61;
+    width:min(24rem,calc(100vw - 2rem));height:min(34rem,calc(100dvh - 2rem));
+    display:flex;flex-direction:column;overflow:hidden;
+    background:var(--paper);color:var(--ink);border:1px solid var(--line);border-radius:14px;
+    box-shadow:0 24px 60px -20px rgb(var(--shadow) / .5);
+  }
+  .chat-head{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;padding:1rem 1rem .85rem;border-bottom:1px solid var(--line-soft);background:var(--paper-2)}
+  .chat-title{font-family:var(--serif);font-size:1.45rem;line-height:1;margin:0}
+  .chat-sub{font-family:var(--mono);font-size:.68rem;color:var(--ink-3);margin-top:.4rem}
+  .chat-close{appearance:none;border:1px solid var(--line);background:transparent;color:var(--ink-2);width:2rem;height:2rem;border-radius:999px;cursor:pointer;display:grid;place-items:center;flex:none}
+  .chat-close:hover{color:var(--ink);border-color:var(--ink-3)}
+  .chat-log{flex:1;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:.65rem;overscroll-behavior:contain}
+  .chat-msg{max-width:88%;padding:.6rem .8rem;border-radius:12px;font-size:.9rem;line-height:1.45;white-space:pre-wrap;overflow-wrap:anywhere}
+  .chat-msg.bot{align-self:flex-start;background:var(--paper-2);border:1px solid var(--line-soft);border-bottom-left-radius:4px}
+  .chat-msg.me{align-self:flex-end;background:var(--signal);color:var(--on-signal);border-bottom-right-radius:4px}
+  .chat-msg.err{color:var(--alert)}
+  .chat-msg a{color:var(--signal-deep);text-decoration:underline;text-underline-offset:2px}
+  .chat-typing::after{content:"···";letter-spacing:.15em;animation:chatBlink 1.2s steps(4) infinite}
+  @keyframes chatBlink{0%{opacity:.25}50%{opacity:1}100%{opacity:.25}}
+  .chat-suggest{display:flex;flex-wrap:wrap;gap:.4rem}
+  .chat-suggest button{appearance:none;border:1px solid var(--line);background:transparent;color:var(--ink-2);font-family:var(--sans);font-size:.8rem;padding:.35rem .65rem;border-radius:999px;cursor:pointer;text-align:left}
+  .chat-suggest button:hover{color:var(--ink);border-color:var(--ink-3)}
+  .chat-form{display:flex;gap:.5rem;padding:.75rem;border-top:1px solid var(--line-soft)}
+  .chat-form input{flex:1;min-width:0;font:inherit;font-size:16px;color:var(--ink);background:var(--paper-2);border:1px solid var(--line);border-radius:9px;padding:.6rem .75rem}
+  .chat-form input:focus{outline:2px solid var(--signal);outline-offset:1px}
+  .chat-form button{appearance:none;border:1px solid var(--signal);background:var(--signal);color:var(--on-signal);border-radius:9px;padding:0 .9rem;cursor:pointer;display:grid;place-items:center}
+  .chat-form button:disabled{opacity:.5;cursor:default}
+  .chat-note{font-family:var(--mono);font-size:.62rem;color:var(--ink-3);padding:0 .9rem .7rem}
+  @media(max-width:480px){
+    .chat-fab .label{display:none}
+    .chat-fab{padding:.8rem}
+  }
+  @media(prefers-reduced-motion:reduce){.chat-typing::after{animation:none}}
 </style>
 </head>
 <body>
@@ -325,6 +370,9 @@
     <symbol id="i-server" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="7" rx="2"/><rect x="3" y="13" width="18" height="7" rx="2"/><path d="M7 7.5h.01M7 16.5h.01"/></symbol>
     <symbol id="i-zap" viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/></symbol>
     <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M17.5 19a4.5 4.5 0 0 0 .5-9 6 6 0 0 0-11.6-1.5A4 4 0 0 0 6.5 19h11Z"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20.5l1.4-4.9A8 8 0 1 1 21 12Z"/><path d="M8.5 12h.01M12 12h.01M15.5 12h.01"/></symbol>
+    <symbol id="i-send" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
     <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></symbol>
     <symbol id="i-phone" viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2 4.2 2 2 0 0 1 4 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.6a2 2 0 0 1-.5 2.1L9.8 9.8a16 16 0 0 0 6 6l1.4-1.4a2 2 0 0 1 2.1-.5c.8.3 1.7.5 2.6.6A2 2 0 0 1 22 16.9Z"/></symbol>
     <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></symbol>
@@ -774,6 +822,34 @@
   </div>
 </footer>
 
+<!-- PORTFOLIO CHAT (answers from worker/src/portfolio.js; hidden until CHAT_ENDPOINT is set below) -->
+<button class="chat-fab" id="chatFab" type="button" aria-controls="chatPanel" aria-expanded="false" hidden>
+  <svg class="ico"><use href="#i-chat"/></svg><span class="label">Ask about my work</span>
+</button>
+<section class="chat-panel" id="chatPanel" role="dialog" aria-modal="false" aria-labelledby="chatTitle" hidden>
+  <div class="chat-head">
+    <div>
+      <h2 class="chat-title" id="chatTitle">Portfolio assistant</h2>
+      <div class="chat-sub">answers from this site only</div>
+    </div>
+    <button class="chat-close" id="chatClose" type="button" aria-label="Close chat"><svg class="ico"><use href="#i-x"/></svg></button>
+  </div>
+  <div class="chat-log" id="chatLog" aria-live="polite">
+    <div class="chat-msg bot">Hi! I can answer questions about CJ's projects, experience, skills, and how to reach him.</div>
+    <div class="chat-suggest" id="chatSuggest">
+      <button type="button">What's his strongest ML project?</button>
+      <button type="button">How did he fix the flaky tests in TaskFlow-QA?</button>
+      <button type="button">What roles is he open to?</button>
+      <button type="button">How can I contact him?</button>
+    </div>
+  </div>
+  <form class="chat-form" id="chatForm">
+    <input id="chatInput" type="text" maxlength="800" autocomplete="off" placeholder="Ask about CJ's work…" aria-label="Your question">
+    <button type="submit" id="chatSend" aria-label="Send"><svg class="ico"><use href="#i-send"/></svg></button>
+  </form>
+  <div class="chat-note">AI-generated answers. For anything important, email CJ.</div>
+</section>
+
 <script>
   // photo placeholders: if an image file isn't there yet, remove it so the placeholder shows
   document.querySelectorAll('.media img').forEach(function(img){
@@ -832,6 +908,108 @@
       var next = cur === 'dark' ? 'light' : 'dark';
       root.setAttribute('data-theme', next);
       try { localStorage.setItem('cj-theme', next); } catch(e){}
+    });
+  })();
+  // portfolio chat
+  (function(){
+    // Paste your Cloudflare Worker URL here after deploying (see worker/README.md), e.g.
+    // 'https://cj-portfolio-chat.<your-subdomain>.workers.dev/chat'
+    var CHAT_ENDPOINT = '';
+    if(!CHAT_ENDPOINT || !window.fetch || !window.TextDecoder) return;
+
+    var fab = document.getElementById('chatFab');
+    var panel = document.getElementById('chatPanel');
+    var log = document.getElementById('chatLog');
+    var form = document.getElementById('chatForm');
+    var input = document.getElementById('chatInput');
+    var send = document.getElementById('chatSend');
+    var suggest = document.getElementById('chatSuggest');
+    var history = [];
+    var busy = false;
+    fab.hidden = false;
+
+    function setOpen(open){
+      panel.hidden = !open;
+      fab.hidden = open;
+      fab.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if(open){ input.focus(); } else { fab.focus(); }
+    }
+    fab.addEventListener('click', function(){ setOpen(true); });
+    document.getElementById('chatClose').addEventListener('click', function(){ setOpen(false); });
+    panel.addEventListener('keydown', function(e){ if(e.key === 'Escape') setOpen(false); });
+
+    // render text safely, turning URLs and email addresses into links
+    function render(el, text){
+      el.textContent = '';
+      var re = /(https?:\/\/[^\s)]+[^\s).,;:!?])|([\w.+-]+@[\w-]+\.[\w.-]*\w)/g, last = 0, m;
+      while((m = re.exec(text))){
+        el.appendChild(document.createTextNode(text.slice(last, m.index)));
+        var a = document.createElement('a');
+        a.textContent = m[0];
+        a.href = m[1] ? m[1] : 'mailto:' + m[2];
+        if(m[1]){ a.target = '_blank'; a.rel = 'noopener'; }
+        el.appendChild(a);
+        last = re.lastIndex;
+      }
+      el.appendChild(document.createTextNode(text.slice(last)));
+    }
+    function bubble(cls, text){
+      var el = document.createElement('div');
+      el.className = 'chat-msg ' + cls;
+      if(text) render(el, text);
+      log.appendChild(el);
+      log.scrollTop = log.scrollHeight;
+      return el;
+    }
+
+    async function ask(question){
+      if(busy || !question) return;
+      busy = true; send.disabled = true;
+      if(suggest){ suggest.remove(); suggest = null; }
+      bubble('me', question);
+      history.push({role:'user', content:question});
+      var el = bubble('bot chat-typing', '');
+      var reply = '', notice = '';
+      try{
+        var res = await fetch(CHAT_ENDPOINT, {
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body:JSON.stringify({messages:history})
+        });
+        if(res.status === 429) notice = 'You’re sending messages quickly — give it a minute and try again.';
+        if(!res.ok || !res.body) throw new Error('status ' + res.status);
+        var reader = res.body.getReader(), decoder = new TextDecoder();
+        el.classList.remove('chat-typing');
+        for(;;){
+          var chunk = await reader.read();
+          if(chunk.done) break;
+          reply += decoder.decode(chunk.value, {stream:true});
+          render(el, reply);
+          log.scrollTop = log.scrollHeight;
+        }
+        reply += decoder.decode();
+        if(!reply.trim()) throw new Error('empty');
+        render(el, reply);
+        history.push({role:'assistant', content:reply});
+      }catch(err){
+        history.pop();
+        el.classList.remove('chat-typing');
+        el.classList.add('err');
+        render(el, notice || 'Sorry, I couldn’t reach the assistant. You can email CJ at albertochristianjoshua@gmail.com.');
+      }finally{
+        busy = false; send.disabled = false; input.focus();
+      }
+    }
+
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      var q = input.value.trim();
+      if(!q || busy) return;
+      input.value = '';
+      ask(q);
+    });
+    suggest.addEventListener('click', function(e){
+      if(e.target.tagName === 'BUTTON') ask(e.target.textContent);
     });
   })();
 </script>
