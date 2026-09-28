@@ -5,6 +5,8 @@ const MAX_MESSAGES = 12; // most recent turns sent to the model
 const MAX_USER_CHARS = 800;
 const MAX_ASSISTANT_CHARS = 4000;
 const MAX_BODY_BYTES = 64 * 1024;
+// Busy, rate-limited, or server-side failures that another model may not hit.
+const RETRYABLE_STATUS = [429, 500, 502, 503, 504];
 const FALLBACK_TEXT =
   "Sorry, I can't answer that one. For anything else, email CJ at albertochristianjoshua@gmail.com.";
 const ERROR_TEXT =
@@ -48,17 +50,20 @@ export default {
     }
 
     const ai = new GoogleGenAI({ apiKey: env.GEMINI_API_KEY });
-    const reply = ai.models.generateContentStream({
-      model: env.MODEL || "gemini-flash-latest",
-      contents: messages.map((m) => ({
-        role: m.role === "assistant" ? "model" : "user",
-        parts: [{ text: m.content }],
-      })),
-      config: { systemInstruction: SYSTEM, maxOutputTokens: 4096 },
-    });
+    const contents = messages.map((m) => ({
+      role: m.role === "assistant" ? "model" : "user",
+      parts: [{ text: m.content }],
+    }));
+    const startReply = (model) =>
+      ai.models.generateContentStream({
+        model,
+        contents,
+        config: { systemInstruction: SYSTEM, maxOutputTokens: 4096 },
+      });
+    const models = [env.MODEL || "gemini-flash-latest", env.FALLBACK_MODEL].filter(Boolean);
 
     const { readable, writable } = new TransformStream();
-    ctx.waitUntil(pipeReply(reply, writable));
+    ctx.waitUntil(pipeReply(startReply, models, writable));
 
     return new Response(readable, {
       headers: { ...cors, "Content-Type": "text/plain; charset=utf-8", "Cache-Control": "no-store" },
@@ -66,22 +71,33 @@ export default {
   },
 };
 
-// Streams the reply's text to the browser as plain UTF-8 chunks.
-async function pipeReply(reply, writable) {
+// Streams the reply's text to the browser as plain UTF-8 chunks. If a model
+// is busy or fails before it has written anything, the next model in the
+// list takes over.
+async function pipeReply(startReply, models, writable) {
   const writer = writable.getWriter();
   const encoder = new TextEncoder();
   let wroteText = false;
   let blocked = false;
   try {
-    for await (const chunk of await reply) {
-      const text = chunk.text;
-      if (text) {
-        wroteText = true;
-        await writer.write(encoder.encode(text));
-      }
-      const finish = chunk.candidates?.[0]?.finishReason;
-      if (chunk.promptFeedback?.blockReason || (finish && !["STOP", "MAX_TOKENS"].includes(finish))) {
-        blocked = true;
+    for (let i = 0; i < models.length; i++) {
+      try {
+        for await (const chunk of await startReply(models[i])) {
+          const text = chunk.text;
+          if (text) {
+            wroteText = true;
+            await writer.write(encoder.encode(text));
+          }
+          const finish = chunk.candidates?.[0]?.finishReason;
+          if (chunk.promptFeedback?.blockReason || (finish && !["STOP", "MAX_TOKENS"].includes(finish))) {
+            blocked = true;
+          }
+        }
+        break;
+      } catch (err) {
+        const retryable = !(err instanceof ApiError) || RETRYABLE_STATUS.includes(err.status);
+        if (wroteText || !retryable || i === models.length - 1) throw err;
+        console.warn(`${models[i]} failed (${err.status ?? err.message}); retrying with ${models[i + 1]}`);
       }
     }
     if (blocked || !wroteText) {
