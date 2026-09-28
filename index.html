@@ -981,7 +981,6 @@
     function hideHint(){
       if(hint.hidden) return;
       hint.hidden = true;
-      try { sessionStorage.setItem('cj-chat-hint', '1'); } catch(e){}
     }
     function setOpen(open){
       if(open) hideHint();
@@ -998,12 +997,8 @@
     document.getElementById('chatHintOpen').addEventListener('click', function(){ setOpen(true); });
     document.getElementById('chatHintClose').addEventListener('click', hideHint);
 
-    // one gentle greeting per visit, a few seconds after the page settles
-    var hintSeen = false;
-    try { hintSeen = sessionStorage.getItem('cj-chat-hint') === '1'; } catch(e){}
-    if(!hintSeen){
-      setTimeout(function(){ if(panel.hidden && !fab.hidden) hint.hidden = false; }, 4000);
-    }
+    // greeting on every page load, shortly after the page settles
+    setTimeout(function(){ if(panel.hidden && !fab.hidden) hint.hidden = false; }, 1500);
     document.getElementById('chatClose').addEventListener('click', function(){ setOpen(false); });
     panel.addEventListener('keydown', function(e){ if(e.key === 'Escape') setOpen(false); });
 
