@@ -4,7 +4,7 @@ A small Cloudflare Worker that powers the "Ask about my work" chat on the portfo
 
 ## One-time setup
 
-1. **Get a Gemini API key.** Sign in at [aistudio.google.com/apikey](https://aistudio.google.com/apikey) and create a key (or reuse the one from your PSE brief). Keys on the free tier cost nothing; see *Cost* below.
+1. **Get a Gemini API key.** Sign in at [aistudio.google.com/apikey](https://aistudio.google.com/apikey) and create a key. Keys on the free tier cost nothing; see *Cost* below.
 2. **Install and log in to Cloudflare** (a free account is enough):
    ```bash
    cd worker
