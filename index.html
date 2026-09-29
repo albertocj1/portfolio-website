@@ -111,20 +111,18 @@
 
   /* ---------- hero ---------- */
   .hero{padding-top:clamp(1.25rem,3.5vw,2.75rem);padding-bottom:clamp(3.5rem,8vw,6rem)}
-  .hero-kicker{font-family:var(--mono);font-size:.8rem;color:var(--signal);margin:0 0 1.3rem;display:flex;align-items:center;gap:.6rem}
-  .hero-kicker::before{content:"";width:1.9rem;height:1px;background:var(--signal);display:inline-block}
   .hero h1{
-    font-family:var(--serif);font-weight:400;
-    font-size:clamp(2.6rem,7.5vw,5.6rem);
-    line-height:.98;letter-spacing:-.01em;margin:0;
-    max-width:17ch;
+    font-family:var(--sans);font-weight:700;
+    font-size:clamp(2.2rem,5.4vw,4.1rem);
+    line-height:1.08;letter-spacing:-.025em;margin:0;
+    max-width:20ch;
   }
-  .hero h1 em{font-style:italic;color:var(--signal-deep)}
+  .hero h1 em{font-style:normal;color:var(--signal-deep)}
   .nowrap{white-space:nowrap}
   .hero-lead{
-    margin:1.7rem 0 0;max-width:44ch;
-    font-size:clamp(1.12rem,1rem + 0.7vw,1.42rem);
-    line-height:1.5;color:var(--ink);
+    margin:1.4rem 0 0;max-width:52ch;
+    font-size:clamp(1.05rem,.98rem + .45vw,1.25rem);
+    line-height:1.6;color:var(--ink-2);
   }
   .hero-actions{margin-top:2.2rem;display:flex;flex-wrap:wrap;gap:.8rem}
   .btn{
@@ -424,9 +422,8 @@
 
 <header class="hero wrap" id="top">
   <div class="reveal">
-    <p class="hero-kicker">Computer Science graduate, National University – Manila</p>
     <h1>AI automation engineer and <span class="nowrap">full-stack</span> <em>developer.</em></h1>
-    <p class="hero-lead">I build AI-powered automation workflows, LLM integrations, and full-stack web applications, from the backend to the deployed product.</p>
+    <p class="hero-lead">I build AI-powered automation workflows, LLM integrations, and <span class="nowrap">full-stack</span> web applications, from the backend to the deployed product.</p>
     <div class="hero-actions">
       <a href="#work" class="btn primary">See the work</a>
       <a href="mailto:albertochristianjoshua@gmail.com" class="btn">
