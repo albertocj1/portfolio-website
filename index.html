@@ -109,7 +109,13 @@
   @media(max-width:720px){.nav-links a:not(.persist){display:none}}
 
   /* ---------- hero ---------- */
-  .hero{padding-top:clamp(1.25rem,3.5vw,2.75rem);padding-bottom:clamp(3.5rem,8vw,6rem)}
+  .hero{padding-top:clamp(1.25rem,3.5vw,2.75rem);padding-bottom:clamp(3.5rem,8vw,6rem);display:grid;gap:2.5rem}
+  .hero-photo .media.portrait{margin:0;max-width:20rem}
+  @media(min-width:900px){
+    .hero{grid-template-columns:minmax(0,2.1fr) minmax(0,1fr);gap:clamp(2.5rem,4vw,3.75rem);align-items:center}
+    .hero h1{font-size:clamp(2.4rem,4.4vw,3.7rem);max-width:none}
+    .hero-photo .media.portrait{max-width:none}
+  }
   .hero h1{
     font-family:var(--sans);font-weight:700;
     font-size:clamp(2.2rem,5.4vw,4.1rem);
@@ -175,7 +181,7 @@
   .about-body p{margin:0 0 1.1rem;max-width:58ch;font-size:1.1rem;line-height:1.62}
   .about-body p:last-child{margin-bottom:0}
   /* justified body copy; hyphenation keeps the word spacing even on narrow screens */
-  .hero-lead,.about-body p,.row-body p.desc,.exp-role li{text-align:justify;hyphens:auto;-webkit-hyphens:auto}
+  .about-body p,.row-body p.desc,.exp-role li{text-align:justify;hyphens:auto;-webkit-hyphens:auto}
   .about-body .sig{font-family:var(--sans);font-weight:500;font-size:1.15rem;line-height:1.5;color:var(--signal-deep)}
   .facts{border-left:2px solid var(--signal);padding-left:1.4rem;display:grid;gap:1.3rem}
   .fact .k{font-family:var(--sans);font-size:.72rem;color:var(--ink-3);letter-spacing:.03em}
@@ -449,9 +455,16 @@
       <div class="readout-grid">
         <div class="cell"><div class="k">location</div><div class="v">Metro Manila, PH</div></div>
         <div class="cell"><div class="k">local time</div><div class="v time" id="clock">—:—:—</div></div>
-        <div class="cell"><div class="k">focus</div><div class="v">ML / automation / full-stack</div></div>
+        <div class="cell"><div class="k">focus</div><div class="v">ML / automation / <span class="nowrap">full-stack</span></div></div>
       </div>
     </div>
+  </div>
+  <div class="reveal hero-photo">
+    <!-- PHOTO: save your portrait as images/cj-portrait.jpg (portrait crop, about 4:5) -->
+    <figure class="media portrait">
+      <img src="images/cj-portrait.jpg" style="object-position:center 20%" alt="Portrait of Christian Joshua Alberto">
+      <div class="ph"><svg class="ico"><use href="#i-user"/></svg><span class="ph-label">Your photo</span><code>images/cj-portrait.jpg</code></div>
+    </figure>
   </div>
 </header>
 
@@ -465,11 +478,6 @@
         <p class="sig">I focus on building systems that are dependable, maintainable, and ready for real use.</p>
       </div>
       <aside>
-        <!-- PHOTO: save your portrait as images/cj-portrait.jpg (portrait crop, about 4:5) -->
-        <figure class="media portrait">
-          <img src="images/cj-portrait.jpg" style="object-position:center 20%" alt="Portrait of Christian Joshua Alberto">
-          <div class="ph"><svg class="ico"><use href="#i-user"/></svg><span class="ph-label">Your photo</span><code>images/cj-portrait.jpg</code></div>
-        </figure>
       <div class="facts">
         <div class="fact"><svg class="ico fact-ico"><use href="#i-cap"/></svg><div class="k">education</div><div class="v">BS Computer Science, Machine&nbsp;Learning<br>National University – Manila</div></div>
         <div class="fact"><svg class="ico fact-ico"><use href="#i-award"/></svg><div class="k">standing</div><div class="v">Magna Cum Laude<br>Consistent First Honor Dean's Lister</div></div>
