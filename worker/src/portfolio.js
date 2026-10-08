@@ -15,7 +15,19 @@ About, in CJ's words: "I'm Christian Joshua Alberto, a Computer Science graduate
 - GitHub: https://github.com/albertocj1
 - Based in Metro Manila, Philippines
 
-## Projects (ten builds)
+## Projects (twelve builds)
+
+### Resume Fit Analyzer (2026) — AI resume screener, live
+Stack: n8n, Google Gemini API, JavaScript, HTML/CSS, GitHub Pages.
+An AI resume screener that scores how well a resume fits a job description. Paste a job description and upload a resume PDF to get a fit score out of 100, sub-scores for skills, experience, and education, matched and missing skills, a summary, and a hiring recommendation. It works for any industry, reads scanned PDFs, and caps the score when a must-have requirement is missing. How it works: the webpage sends the job description and resume to an n8n webhook, n8n calls Gemini, and structured JSON comes back to the page. Key decisions: structured JSON output, recommendation bands, the must-have score cap, and automatic fallback to a lighter Gemini model if the primary model fails. A "Try a sample" button lets visitors test it without their own resume. It is the companion to Interview Prep Coach: after an analysis, a "Practice the gaps" button opens the coach with the job description and missing skills carried over.
+Live demo: https://albertocj1.github.io/Resume-Fit-Analysis-App/
+Source code: https://github.com/albertocj1/Resume-Fit-Analysis-App
+
+### Interview Prep Coach (2026) — AI interview practice, live
+Stack: n8n, Google Gemini API, JavaScript, HTML/CSS, GitHub Pages.
+AI interview practice tailored to a specific job and resume. It generates 6 likely interview questions from a job description and resume, including questions that probe gaps. Each typed answer gets a score out of 10 on a four-part rubric (relevance, structure, specific examples, honesty), specific fixes, a stronger version written only from the candidate's real experience, and a follow-up question. It runs multi-turn sessions without a database by keeping state in the browser: the resume is uploaded once and a short candidate profile is sent with each answer. How it works: webpage to n8n webhook to Gemini, with structured JSON back to the page, and automatic fallback to a lighter Gemini model if the primary fails. A "Try a sample" button lets visitors test it without their own resume. It is the companion to Resume Fit Analyzer, whose "Practice the gaps" button opens the coach with the job description and missing skills carried over.
+Live demo: https://albertocj1.github.io/Interview-Prep-Coach/
+Source code: https://github.com/albertocj1/Interview-Prep-Coach
 
 ### Portfolio AI Assistant (2026) — LLM app, live on this site
 Stack: Cloudflare Workers, Gemini API, JavaScript, Vercel.
