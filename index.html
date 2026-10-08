@@ -280,6 +280,8 @@
   .cap h4 .ico,.rec-col h4 .ico{font-size:1rem}
   .row-meta .mv .ico{color:var(--signal-deep);margin-right:.35rem;font-size:.95rem}
   .row-links .ico{margin-right:.3rem}
+  .row-actions{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.2rem}
+  .row-body p.desc a{color:var(--signal-deep);text-decoration:underline;text-underline-offset:2px}
   .fact{display:grid;grid-template-columns:1.05rem 1fr;column-gap:.75rem;align-items:start}
   .fact .fact-ico{grid-column:1;grid-row:1 / span 2;margin-top:.2rem;color:var(--signal-deep);font-size:1rem}
   .foot-grid .col .k{display:flex;align-items:center;gap:.45rem}
@@ -492,18 +494,72 @@
   <section class="section wrap" id="work">
     <div class="sec-head">
       <div class="sec-title-wrap"><span class="sec-ico"><svg class="ico"><use href="#i-grid"/></svg></span><h2 class="sec-title">Selected work</h2></div>
-      <p class="sec-note">Ten builds, sorted by what they're made of. Filter to narrow.</p>
+      <p class="sec-note">Twelve builds, sorted by what they're made of. Filter to narrow.</p>
     </div>
 
     <div class="filters" role="group" aria-label="Filter work by discipline">
-      <button class="chip" data-filter="all" aria-pressed="true">All<span class="n">10</span></button>
+      <button class="chip" data-filter="all" aria-pressed="true">All<span class="n">12</span></button>
       <button class="chip" data-filter="ml" aria-pressed="false">Machine learning<span class="n">4</span></button>
-      <button class="chip" data-filter="automation" aria-pressed="false">Automation & LLMs<span class="n">3</span></button>
+      <button class="chip" data-filter="automation" aria-pressed="false">Automation & LLMs<span class="n">5</span></button>
       <button class="chip" data-filter="fullstack" aria-pressed="false">Full-stack<span class="n">2</span></button>
       <button class="chip" data-filter="iot" aria-pressed="false">IoT<span class="n">1</span></button>
     </div>
 
     <div class="work">
+
+      <!-- Resume Fit Analyzer -->
+      <article class="row" data-cat="automation" id="resume-fit-analyzer">
+        <div class="row-meta">
+          <div class="mrow"><span class="mk">year</span><span class="mv">2026</span></div>
+          <div class="mrow"><span class="mk">type</span><span class="mv"><svg class="ico"><use href="#i-target"/></svg>AI resume screener</span></div>
+          <div class="mrow"><span class="mk">stack</span><span class="tags"><span class="tag">n8n</span><span class="tag">Google Gemini API</span><span class="tag">JavaScript</span><span class="tag">HTML/CSS</span><span class="tag">GitHub Pages</span></span></div>
+        </div>
+        <div class="row-body">
+          <h3>Resume Fit Analyzer</h3>
+          <p class="ctx">AI resume screener that scores how well a resume fits a job description</p>
+          <p class="desc">Paste a job description and upload a resume PDF to get a fit score out of 100, sub-scores for skills, experience, and education, matched and missing skills, a summary, and a hiring recommendation. It works for any industry, reads scanned PDFs, and caps the score when a must-have requirement is missing. It pairs with <a href="#interview-prep-coach">Interview Prep Coach</a>: after an analysis, a “Practice the gaps” button opens the coach with the job description and missing skills carried over. Both use Gemini with structured JSON output and fall back to a lighter model automatically if the primary one fails, and a “Try a sample” button lets you test it without your own resume.</p>
+          <div class="metrics">
+            <div class="metric"><div class="num">100</div><div class="lab">point fit score, capped when a must-have is missing</div></div>
+            <div class="metric"><div class="num">3</div><div class="lab">sub-scores: skills, experience, education</div></div>
+          </div>
+          <div class="row-actions">
+            <a href="https://albertocj1.github.io/Resume-Fit-Analysis-App/" class="btn primary" target="_blank" rel="noopener noreferrer"><svg class="ico"><use href="#i-ext"/></svg>Try it live</a>
+            <a href="https://github.com/albertocj1/Resume-Fit-Analysis-App" class="btn" target="_blank" rel="noopener noreferrer"><svg class="ico ico-fill"><use href="#i-github"/></svg>View source</a>
+          </div>
+          <!-- PHOTO: save as /images/projects/resume-fit-analyzer.png -->
+          <figure class="media">
+            <img src="/images/projects/resume-fit-analyzer.png" alt="Resume Fit Analyzer showing a 66 out of 100 Partial Fit score with skills, experience, and education sub-scores, a summary, and matched skills">
+            <div class="ph"><svg class="ico"><use href="#i-image"/></svg><span class="ph-label">Fit score, sub-scores, and matched skills</span><code>/images/projects/resume-fit-analyzer.png</code></div>
+          </figure>
+        </div>
+      </article>
+
+      <!-- Interview Prep Coach -->
+      <article class="row" data-cat="automation" id="interview-prep-coach">
+        <div class="row-meta">
+          <div class="mrow"><span class="mk">year</span><span class="mv">2026</span></div>
+          <div class="mrow"><span class="mk">type</span><span class="mv"><svg class="ico"><use href="#i-chat"/></svg>AI interview practice</span></div>
+          <div class="mrow"><span class="mk">stack</span><span class="tags"><span class="tag">n8n</span><span class="tag">Google Gemini API</span><span class="tag">JavaScript</span><span class="tag">HTML/CSS</span><span class="tag">GitHub Pages</span></span></div>
+        </div>
+        <div class="row-body">
+          <h3>Interview Prep Coach</h3>
+          <p class="ctx">AI interview practice tailored to a specific job and resume</p>
+          <p class="desc">Generates 6 likely interview questions from a job description and resume, including questions that probe gaps. Each typed answer gets a score out of 10 on a four-part rubric, specific fixes, a stronger version written only from the candidate&#x27;s real experience, and a follow-up question. It runs multi-turn sessions without a database by keeping state in the browser. It picks up where <a href="#resume-fit-analyzer">Resume Fit Analyzer</a> leaves off: its “Practice the gaps” button opens the coach with the job description and missing skills carried over. Both use Gemini with structured JSON output and fall back to a lighter model automatically if the primary one fails, and a “Try a sample” button lets you test it without your own resume.</p>
+          <div class="metrics">
+            <div class="metric"><div class="num">6</div><div class="lab">tailored questions per session, including gap probes</div></div>
+            <div class="metric"><div class="num">4</div><div class="lab">rubric criteria scored on every answer</div></div>
+          </div>
+          <div class="row-actions">
+            <a href="https://albertocj1.github.io/Interview-Prep-Coach/" class="btn primary" target="_blank" rel="noopener noreferrer"><svg class="ico"><use href="#i-ext"/></svg>Try it live</a>
+            <a href="https://github.com/albertocj1/Interview-Prep-Coach" class="btn" target="_blank" rel="noopener noreferrer"><svg class="ico ico-fill"><use href="#i-github"/></svg>View source</a>
+          </div>
+          <!-- PHOTO: save as /images/projects/interview-prep-coach.png -->
+          <figure class="media">
+            <img src="/images/projects/interview-prep-coach.png" alt="Interview Prep Coach scoring a behavioral answer 7 out of 10 with rubric ratings, what worked, what to improve, and a stronger version of the answer">
+            <div class="ph"><svg class="ico"><use href="#i-image"/></svg><span class="ph-label">Answer score, rubric, and stronger version</span><code>/images/projects/interview-prep-coach.png</code></div>
+          </figure>
+        </div>
+      </article>
 
       <!-- Portfolio AI Assistant -->
       <article class="row" data-cat="automation">
