@@ -1,4 +1,4 @@
-import { ApiError, GoogleGenAI } from "@google/genai";
+import { ApiError, GoogleGenAI, ThinkingLevel } from "@google/genai";
 import { PORTFOLIO } from "./portfolio.js";
 
 const MAX_MESSAGES = 12; // most recent turns sent to the model
@@ -55,11 +55,17 @@ export default {
       role: m.role === "assistant" ? "model" : "user",
       parts: [{ text: m.content }],
     }));
-    const startReply = (model) =>
+    // Minimal thinking: portfolio Q&A doesn't need the model to reason before answering, and
+    // thinking is what delays the first words. A model that rejects the setting gets its default.
+    const startReply = (model, minimalThinking) =>
       ai.models.generateContentStream({
         model,
         contents,
-        config: { systemInstruction: SYSTEM, maxOutputTokens: 4096 },
+        config: {
+          systemInstruction: SYSTEM,
+          maxOutputTokens: 4096,
+          ...(minimalThinking && { thinkingConfig: { thinkingLevel: ThinkingLevel.MINIMAL } }),
+        },
       });
     const models = [env.MODEL || "gemini-flash-latest", env.FALLBACK_MODEL].filter(Boolean);
 
@@ -74,31 +80,49 @@ export default {
 
 // Streams the reply's text to the browser as plain UTF-8 chunks. If a model
 // is busy or fails before it has written anything, the next model in the
-// list takes over.
+// list takes over. Logs which model answered and how long it took.
 async function pipeReply(startReply, models, writable) {
   const writer = writable.getWriter();
   const encoder = new TextEncoder();
+  const started = Date.now();
   let wroteText = false;
   let blocked = false;
   try {
-    for (let i = 0; i < models.length; i++) {
-      try {
-        for await (const chunk of await startReply(models[i])) {
-          const text = chunk.text;
-          if (text) {
-            wroteText = true;
-            await writer.write(encoder.encode(text));
+    models: for (let i = 0; i < models.length; i++) {
+      let minimalThinking = true;
+      for (;;) {
+        try {
+          let firstTextAt = 0;
+          for await (const chunk of await startReply(models[i], minimalThinking)) {
+            const text = chunk.text;
+            if (text) {
+              if (!firstTextAt) firstTextAt = Date.now();
+              wroteText = true;
+              await writer.write(encoder.encode(text));
+            }
+            const finish = chunk.candidates?.[0]?.finishReason;
+            if (chunk.promptFeedback?.blockReason || (finish && !["STOP", "MAX_TOKENS"].includes(finish))) {
+              blocked = true;
+            }
           }
-          const finish = chunk.candidates?.[0]?.finishReason;
-          if (chunk.promptFeedback?.blockReason || (finish && !["STOP", "MAX_TOKENS"].includes(finish))) {
-            blocked = true;
+          console.log(
+            `model=${models[i]} thinking=${minimalThinking ? "minimal" : "default"} ` +
+            `first_text_ms=${firstTextAt ? firstTextAt - started : "none"} total_ms=${Date.now() - started}`,
+          );
+          break models;
+        } catch (err) {
+          const rejectedThinking = minimalThinking && !wroteText && err instanceof ApiError &&
+            err.status === 400 && /thinking/i.test(err.message);
+          if (rejectedThinking) {
+            console.warn(`${models[i]} rejected minimal thinking; retrying with its default`);
+            minimalThinking = false;
+            continue;
           }
+          const retryable = !(err instanceof ApiError) || RETRYABLE_STATUS.includes(err.status);
+          if (wroteText || !retryable || i === models.length - 1) throw err;
+          console.warn(`${models[i]} failed (${err.status ?? err.message}) after ${Date.now() - started} ms; retrying with ${models[i + 1]}`);
+          continue models;
         }
-        break;
-      } catch (err) {
-        const retryable = !(err instanceof ApiError) || RETRYABLE_STATUS.includes(err.status);
-        if (wroteText || !retryable || i === models.length - 1) throw err;
-        console.warn(`${models[i]} failed (${err.status ?? err.message}); retrying with ${models[i + 1]}`);
       }
     }
     if (blocked || !wroteText) {
@@ -106,7 +130,7 @@ async function pipeReply(startReply, models, writable) {
     }
   } catch (err) {
     if (err instanceof ApiError) {
-      console.error(`Gemini API error ${err.status}:`, err.message);
+      console.error(`Gemini API error ${err.status} after ${Date.now() - started} ms:`, err.message);
     } else {
       console.error("Chat stream failed:", err);
     }
