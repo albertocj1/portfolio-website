@@ -361,8 +361,11 @@
   .chat-msg.me{align-self:flex-end;background:var(--signal);color:var(--on-signal);border-bottom-right-radius:4px}
   .chat-msg.err{color:var(--alert)}
   .chat-msg a{color:var(--signal-deep);text-decoration:underline;text-underline-offset:2px}
-  .chat-typing::after{content:"···";letter-spacing:.15em;animation:chatBlink 1.2s steps(4) infinite}
-  @keyframes chatBlink{0%{opacity:.25}50%{opacity:1}100%{opacity:.25}}
+  .chat-dots{display:inline-flex;align-items:center;gap:.3rem;height:1.3em}
+  .chat-dots i{width:.42rem;height:.42rem;border-radius:50%;background:var(--ink-3);animation:chatDot 1.2s ease-in-out infinite}
+  .chat-dots i:nth-child(2){animation-delay:.15s}
+  .chat-dots i:nth-child(3){animation-delay:.3s}
+  @keyframes chatDot{0%,70%,100%{opacity:.35;transform:none}35%{opacity:1;transform:translateY(-.25rem)}}
   .chat-suggest{display:flex;flex-wrap:wrap;gap:.4rem}
   .chat-suggest button{appearance:none;border:1px solid var(--line);background:transparent;color:var(--ink-2);font-family:var(--sans);font-size:.8rem;padding:.35rem .65rem;border-radius:999px;cursor:pointer;text-align:left}
   .chat-suggest button:hover{color:var(--ink);border-color:var(--ink-3)}
@@ -378,7 +381,7 @@
     .chat-hint{max-width:13.5rem}
     .chat-hint-text{font-size:.8rem}
   }
-  @media(prefers-reduced-motion:reduce){.chat-typing::after,.chat-hint{animation:none}}
+  @media(prefers-reduced-motion:reduce){.chat-dots i,.chat-hint{animation:none}}
 </style>
 </head>
 <body>
@@ -1119,6 +1122,13 @@
       bubble('me', question);
       history.push({role:'user', content:question});
       var el = bubble('bot chat-typing', '');
+      var dots = document.createElement('span');
+      dots.className = 'chat-dots';
+      dots.setAttribute('role', 'status');
+      dots.setAttribute('aria-label', 'Assistant is typing');
+      dots.innerHTML = '<i></i><i></i><i></i>';
+      el.appendChild(dots);
+      log.scrollTop = log.scrollHeight;
       var reply = '', notice = '';
       try{
         var res = await fetch(CHAT_ENDPOINT, {
@@ -1129,11 +1139,12 @@
         if(res.status === 429) notice = 'You’re sending messages quickly — give it a minute and try again.';
         if(!res.ok || !res.body) throw new Error('status ' + res.status);
         var reader = res.body.getReader(), decoder = new TextDecoder();
-        el.classList.remove('chat-typing');
         for(;;){
           var chunk = await reader.read();
           if(chunk.done) break;
           reply += decoder.decode(chunk.value, {stream:true});
+          if(!reply.trim()) continue; // keep the dots until the first words arrive
+          el.classList.remove('chat-typing');
           render(el, reply);
           log.scrollTop = log.scrollHeight;
         }
