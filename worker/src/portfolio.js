@@ -1,13 +1,13 @@
-// Everything the chatbot knows about CJ. Keep this in sync with index.html:
+// Everything the chatbot knows about Christian Joshua. Keep this in sync with index.html:
 // if a fact isn't written here, the assistant is told not to claim it.
 export const PORTFOLIO = `
-# Christian Joshua "CJ" Alberto
+# Christian Joshua Alberto
 
 Computer Science graduate (BS Computer Science, specialization in Machine Learning) from National University – Manila, based in Metro Manila, Philippines. Graduated Magna Cum Laude and was a Consistent First Honor Dean's Lister.
 Headline: "AI automation engineer and full-stack developer." I build AI-powered automation workflows, LLM integrations, and full-stack web applications, from the backend to the deployed product.
 Focus: ML / automation / full-stack. Currently a Data and Automation Engineer at Tektos Ecosystems Ltd (Hong Kong), since October 2026.
 
-About, in CJ's words: "I'm Christian Joshua Alberto, a Computer Science graduate (Magna Cum Laude) from National University – Manila with a specialization in machine learning. My work focuses on building software that runs reliably in production, including machine learning models, automated data pipelines, and full-stack web applications. Recent projects include a dengue outbreak forecasting model deployed with a live API and public dashboard, an automated market analysis pipeline that delivers daily reports after each Philippine Stock Exchange close, and an end-to-end test suite that runs on every pull request. During my internship, I automated HR workflows that cut manual processing time by 80%. I'm currently a Data and Automation Engineer at Tektos Ecosystems Ltd in Hong Kong. I focus on building systems that are dependable, maintainable, and ready for real use."
+About, in Christian Joshua's words: "I'm Christian Joshua Alberto, a Computer Science graduate (Magna Cum Laude) from National University – Manila with a specialization in machine learning. My work focuses on building software that runs reliably in production, including machine learning models, automated data pipelines, and full-stack web applications. Recent projects include a dengue outbreak forecasting model deployed with a live API and public dashboard, an automated market analysis pipeline that delivers daily reports after each Philippine Stock Exchange close, and an end-to-end test suite that runs on every pull request. During my internship, I automated HR workflows that cut manual processing time by 80%. I'm currently a Data and Automation Engineer at Tektos Ecosystems Ltd in Hong Kong. I focus on building systems that are dependable, maintainable, and ready for real use."
 
 ## Contact
 - Email: albertochristianjoshua@gmail.com (best for roles and project enquiries)
@@ -33,29 +33,29 @@ Source code: https://github.com/albertocj1/Interview-Prep-Coach
 
 ### Portfolio AI Assistant (2026) — LLM app, live on this site
 Stack: Cloudflare Workers, Gemini API, JavaScript, Vercel.
-The chatbot visitors are talking to right now is itself one of CJ's projects. It runs on a Cloudflare Worker (JavaScript) that streams Gemini replies into a chat widget CJ built from scratch for the portfolio site (cjalberto.vercel.app). Answers are grounded in a curated knowledge base of the portfolio, with a system prompt that keeps it on topic and tells it to say when it doesn't know something instead of inventing details. Because it's public, it's hardened like a public service: the Gemini API key is stored as an encrypted Cloudflare secret and never reaches the browser; CORS allow-listing means only the portfolio site can call it; each visitor is rate-limited to 10 messages a minute; conversations are validated and trimmed before they're sent; and if the main model (gemini-flash-latest) is busy or fails before answering, it automatically retries on a backup model (gemini-3.5-flash-lite).
+The chatbot visitors are talking to right now is itself one of Christian Joshua's projects. It runs on a Cloudflare Worker (JavaScript) that streams Gemini replies into a chat widget Christian Joshua built from scratch for the portfolio site (cjalberto.vercel.app). Answers are grounded in a curated knowledge base of the portfolio, with a system prompt that keeps it on topic and tells it to say when it doesn't know something instead of inventing details. Because it's public, it's hardened like a public service: the Gemini API key is stored as an encrypted Cloudflare secret and never reaches the browser; CORS allow-listing means only the portfolio site can call it; each visitor is rate-limited to 10 messages a minute; conversations are validated and trimmed before they're sent; and if the main model (gemini-flash-latest) is busy or fails before answering, it automatically retries on a backup model (gemini-3.5-flash-lite).
 Numbers: 2 models (primary plus automatic backup); 0 API keys exposed to the browser.
 Source code: https://github.com/albertocj1/portfolio-website/tree/main/worker
 
 ### PSE Daily Market Brief (2026) — automation agent
 Stack: n8n, Gemini, Yahoo Finance, Telegram, Supabase.
-An n8n pipeline that wakes up after every Philippine Stock Exchange close, pulls the index, a 13-stock watchlist and five macro series from Yahoo Finance, reads three news feeds, and sends a Gemini-written brief to Telegram: session summary, top movers, and sentiment tagged per headline. The hard part was keeping the model honest: links are stitched back from the source feeds in code so it can't invent URLs, output is validated, and a failed call falls back to a second model. Every run logs prices and sentiment to Postgres, with SQL views tying each day's sentiment to the next day's return so CJ can backtest whether the signal is real.
+An n8n pipeline that wakes up after every Philippine Stock Exchange close, pulls the index, a 13-stock watchlist and five macro series from Yahoo Finance, reads three news feeds, and sends a Gemini-written brief to Telegram: session summary, top movers, and sentiment tagged per headline. The hard part was keeping the model honest: links are stitched back from the source feeds in code so it can't invent URLs, output is validated, and a failed call falls back to a second model. Every run logs prices and sentiment to Postgres, with SQL views tying each day's sentiment to the next day's return so Christian Joshua can backtest whether the signal is real.
 Numbers: 13 stocks + 5 macro series tracked daily; 0 model-generated links (all sourced in code).
 
 ### TaskFlow-QA (2026) — QA automation platform
 Stack: FastAPI, React, TypeScript, Playwright, GitHub Actions.
-A full-stack task tracker built specifically as the system-under-test for a Playwright framework: E2E and API suites on a Page Object Model. Working with Claude Code, CJ hunted down two reliability bugs: an async race in a page-object helper and a shared-state leak across parallel workers. Fixing them took the suite from intermittent failures to a clean, repeatable pass across Chromium and Firefox. CI type-checks the frontend, runs backend tests, and executes the full cross-browser suite with an uploaded HTML report on every PR.
+A full-stack task tracker built specifically as the system-under-test for a Playwright framework: E2E and API suites on a Page Object Model. Working with Claude Code, Christian Joshua hunted down two reliability bugs: an async race in a page-object helper and a shared-state leak across parallel workers. Fixing them took the suite from intermittent failures to a clean, repeatable pass across Chromium and Firefox. CI type-checks the frontend, runs backend tests, and executes the full cross-browser suite with an uploaded HTML report on every PR.
 Numbers: 18 → 0 flaky failures eliminated; 30/30 consistent pass across two browsers.
 
 ### Exclusives PH — Manila Yacht Club event (2026) — freelance production event platform
 Stack: FastAPI, Supabase, Three.js, PayMongo, Gmail API.
-A full-stack RSVP and ticketing platform for a Manila Yacht Club event, built from scratch and run against real crowd traffic. PayMongo handles GCash and Maya payments, the Gmail API sends QR e-tickets the moment someone pays, and a reception dashboard scans those codes at the door and assigns table seating automatically. CJ also built the on-site point-of-sale and bar management systems.
+A full-stack RSVP and ticketing platform for a Manila Yacht Club event, built from scratch and run against real crowd traffic. PayMongo handles GCash and Maya payments, the Gmail API sends QR e-tickets the moment someone pays, and a reception dashboard scans those codes at the door and assigns table seating automatically. Christian Joshua also built the on-site point-of-sale and bar management systems.
 Numbers: 100% of manual booking work removed; handled event-night traffic end to end.
 Live production site: https://www.exclusivesph.com
 
 ### Dengue Early-Warning System (2025–26) — deep learning thesis
 Stack: TensorFlow, GCP, Render, Vercel.
-CJ's undergraduate thesis: a spatial-temporal deep learning model that forecasts dengue outbreaks across Metro Manila (NCR) from clinical and weather data. Beyond the modelling (preprocessing, feature engineering, hyperparameter tuning), it is deployed to production behind a live REST API with a public dashboard.
+Christian Joshua's undergraduate thesis: a spatial-temporal deep learning model that forecasts dengue outbreaks across Metro Manila (NCR) from clinical and weather data. Beyond the modelling (preprocessing, feature engineering, hyperparameter tuning), it is deployed to production behind a live REST API with a public dashboard.
 Live dashboard: https://dengue-watch-website.vercel.app
 
 ### AI Resume-Fit Analysis (2026) — LLM service
@@ -68,7 +68,7 @@ Signature forgery detection: a Siamese neural network that verifies signatures a
 
 ### XORBIN — Smart Waste System (2024) — IoT + computer vision
 Stack: Arduino, OpenCV, GSM.
-An IoT waste-classification system that sorts material (metal, paper, plastic) with computer vision, driven by Arduino and ultrasonic sensors, with a GSM module for real-time alerts. CJ was developer lead and took the team to a 4th-overall finish (finalist) at the packetHACKS 2024 NCR leg.
+An IoT waste-classification system that sorts material (metal, paper, plastic) with computer vision, driven by Arduino and ultrasonic sensors, with a GSM module for real-time alerts. Christian Joshua was developer lead and took the team to a 4th-overall finish (finalist) at the packetHACKS 2024 NCR leg.
 
 ### Heart-Failure Risk Prediction (2024) — classical ML
 Stack: scikit-learn, SVM.
