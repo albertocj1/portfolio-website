@@ -6,10 +6,11 @@ compatibility_flags = ["nodejs_compat"]
 [vars]
 # Sites allowed to call the chatbot, comma-separated. Add your custom domain here if you use one.
 ALLOWED_ORIGINS = "https://cjalberto.vercel.app,http://localhost:8000"
-# Gemini model that answers visitors' questions. "gemini-flash-latest" always points to Google's newest Flash model.
-MODEL = "gemini-flash-latest"
+# Gemini model that answers visitors' questions. Flash-Lite supports minimal thinking, so it starts
+# answering in about two seconds; the full Flash model rejects minimal thinking and is often busy.
+MODEL = "gemini-3.5-flash-lite"
 # Backup model, used when the main one is busy or fails before answering.
-FALLBACK_MODEL = "gemini-3.5-flash-lite"
+FALLBACK_MODEL = "gemini-flash-latest"
 
 # Run the Worker next to a US Google Cloud region instead of the data centre nearest each
 # visitor. Gemini rejects requests from some locations (e.g. Hong Kong, where many
