@@ -78,6 +78,12 @@ A reinforcement-learning agent trained on OpenAI Gym's Taxi-v3 that learns pick-
 
 ## Experience & education
 
+### Data and Automation Engineer — Tektos (Oct – Nov 2026)
+- Migrated 14 company websites from PHP/Joomla to static HTML/CSS/JS, moved every contact and newsletter form to n8n webhooks with email verification and spam protection, moved all company domains to Cloudflare DNS, and ran a security review of the legacy web server.
+- Repaired and extended the CRM and email-marketing automations between Zoho CRM, Brevo, and SharePoint in n8n: fixed five workflows (34/34 tests passing) and automated 5 of 7 manual list-management steps, so only verified, active contacts reach campaigns.
+- Rebuilt the business-card OCR tool as a web app for non-technical staff. n8n and Gemini read each card and return a CRM-ready Excel file and email report, with photos backed up to SharePoint through Power Automate; a 134-card batch dropped from 43 to 19.6 minutes, with 7/7 names and emails matching verified data.
+- Shipped every change through dev copies, test data, peer review, backups, and dry runs before any write to the CRM, and documented the work in reports and team presentations.
+
 ### Freelance Full-Stack Developer — Exclusives PH, Manila Yacht Club event (Jul – Aug 2026)
 - Architected the RSVP and ticketing platform end to end with FastAPI, Supabase, and an interactive Three.js frontend that held up under live event traffic.
 - Automated payments (PayMongo / GCash / Maya) and instant QR e-ticket dispatch via the Gmail API, removing manual booking entirely.
@@ -100,7 +106,7 @@ A reinforcement-learning agent trained on OpenAI Gym's Taxi-v3 that learns pick-
 ## Skills
 - Machine learning & data: TensorFlow, Keras, scikit-learn, Pandas, NumPy, regression, classification, time-series, computer vision, reinforcement learning.
 - Backend & web: Python, FastAPI, REST APIs, React, TypeScript, Tailwind CSS, Three.js, HTML5, CSS3.
-- Automation & LLMs: n8n, OpenAI API, Gemini API, prompt engineering, structured JSON, Telegram Bot API, Claude Code.
+- Automation & LLMs: n8n, OpenAI API, Gemini API, prompt engineering, structured JSON, Telegram Bot API, Zoho CRM, Brevo, Power Automate, SharePoint, Claude Code.
 - Cloud, data & testing: PostgreSQL, Supabase, MongoDB Atlas, GCP, AWS Bedrock, Cloudflare Workers, Vercel, Render, Docker, Playwright, GitHub Actions.
 - Languages: Python, Java, JavaScript, SQL, C++.
 
