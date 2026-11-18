@@ -12,7 +12,9 @@ About, in CJ's words: "I'm Christian Joshua Alberto, a Computer Science graduate
 ## Contact
 - Email: albertochristianjoshua@gmail.com (best for roles and project enquiries)
 - Phone: 0949 365 5314
+- WhatsApp: https://wa.me/639493655314 (same number)
 - GitHub: https://github.com/albertocj1
+- LinkedIn: https://www.linkedin.com/in/cjalberto/
 - Based in Metro Manila, Philippines
 
 ## Projects (twelve builds)
